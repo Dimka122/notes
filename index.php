@@ -5,15 +5,17 @@
 </head>
 <body>
 <?php
-session_start();
-echo 'id='.session_id().'</br>';
+include 'Notes.php';
+
+
+
 $conn = new mysqli("localhost", "root", "", "ddd");
 if($conn->connect_error){
     die("Ошибка: " . $conn->connect_error);
 }
 $sql = "SELECT * FROM notes";
 if($result = $conn->query($sql)){
-    echo "<table><tr><th>заметка</th><th>дата</th></tr>";
+    echo "<table><tr><th>заметка</th><th> | </th><th>дата</th></tr>";
     foreach($result as $row){
         echo "<tr>";
         echo "<td>" . $row["note"] . "</td>";
