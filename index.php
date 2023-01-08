@@ -4,19 +4,32 @@
     <link href="style.css" rel="stylesheet"/>
 </head>
 <body>
-<div>
 <?php
+session_start();
+echo 'id='.session_id().'</br>';
 $conn = new mysqli("localhost", "root", "", "ddd");
 if($conn->connect_error){
-    echo 'ERROR';
+    die("Ошибка: " . $conn->connect_error);
 }
-else{
-    echo 'OK';
+$sql = "SELECT * FROM notes";
+if($result = $conn->query($sql)){
+    echo "<table><tr><th>заметка</th><th>дата</th></tr>";
+    foreach($result as $row){
+        echo "<tr>";
+        echo "<td>" . $row["note"] . "</td>";
+        echo "<td>" . $row["data"] . "</td>";
 
-    $conn->close();
+
+        echo "</tr>";
+    }
+    echo "</table>";
+    $result->free();
+} else{
+    echo "Ошибка: " . $conn->error;
 }
+$conn->close();
 ?>
-</div>
+<a href='addnotes.php'>Добавить заметку</a>
 
 </body>
 </html>
